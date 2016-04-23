@@ -1,4 +1,4 @@
-defmodule Airbrakex.LoggerBackend do
+defmodule Ravenex.LoggerBackend do
   use GenEvent
 
   def init(__MODULE__) do
@@ -21,7 +21,7 @@ defmodule Airbrakex.LoggerBackend do
   end
 
   defp proceed?({Logger, _msg, _ts, meta}) do
-    Keyword.get(meta, :airbrakex, true)
+    Keyword.get(meta, :ravenex, true)
   end
 
   defp meet_level?(lvl, min) do
@@ -31,7 +31,7 @@ defmodule Airbrakex.LoggerBackend do
   defp post_event({Logger, msg, _ts, meta}, keys) do
     msg = IO.chardata_to_string(msg)
     meta = take_into_map(meta, keys)
-    Airbrakex.LoggerParser.parse(msg) |> Airbrakex.Notifier.notify([params: meta])
+    Ravenex.LoggerParser.parse(msg) |> Ravenex.Notifier.notify([params: meta])
   end
 
   defp take_into_map(metadata, keys) do
@@ -46,7 +46,7 @@ defmodule Airbrakex.LoggerBackend do
     Application.put_env(:logger, __MODULE__, config)
 
     %{
-      level: Application.get_env(:airbrakex, :logger_level, :error),
+      level: Application.get_env(:ravenex, :logger_level, :error),
       metadata: Keyword.get(config, :metadata, [])
     }
   end

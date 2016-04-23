@@ -1,12 +1,12 @@
-defmodule Airbrakex.Mixfile do
+defmodule Ravenex.Mixfile do
   use Mix.Project
 
   def project do
     [
-      app: :airbrakex,
-      version: "0.0.6",
+      app: :ravenex,
+      version: "0.0.1",
       elixir: "~> 1.0",
-      description: "Airbrake Elixir Notifier",
+      description: "Raven Elixir Notifier",
       package: package,
       deps: deps
    ]
@@ -14,22 +14,23 @@ defmodule Airbrakex.Mixfile do
 
   def package do
     [
-      maintainers: ["Michał Kalbarczyk"],
+      maintainers: ["Geoffrey Hayes"],
       licenses: ["MIT"],
-      links: %{github: "https://github.com/fazibear/airbrakex"}
+      links: %{github: "https://github.com/hayesgm/ravenex"}
    ]
   end
 
   def application do
     [
-      applications: [:idna, :hackney, :httpoison]
+      applications: [:idna, :hackney, :httpoison, :uuid]
     ]
   end
 
   defp deps do
     [
       {:httpoison, "~> 0.8"},
-      {:poison, "~> 2.0"}
+      {:poison, "~> 2.0"},
+      {:uuid, "~> 0.1.5"},
     ]
   end
 end

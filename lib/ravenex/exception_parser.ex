@@ -1,4 +1,4 @@
-defmodule Airbrakex.ExceptionParser do
+defmodule Ravenex.ExceptionParser do
   def parse(exception) do
     %{
       type: exception.__struct__,
@@ -11,14 +11,14 @@ defmodule Airbrakex.ExceptionParser do
     Enum.map stacktrace, fn
       ({ module, function, args, [] }) ->
         %{
-          file: "unknown",
-          line: 0,
+          filename: "unknown",
+          lineno: 0,
           function: "#{ module }.#{ function }#{ args(args) }"
         }
       ({ module, function, args, [file: file, line: line_number] }) ->
         %{
-          file: "(#{module}) #{List.to_string(file)}",
-          line: line_number,
+          filename: "(#{module}) #{List.to_string(file)}",
+          lineno: line_number,
           function: "#{function}#{args(args)}"
         }
     end

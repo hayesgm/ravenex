@@ -1,18 +1,18 @@
-# Airbrakex ![Package Version](https://img.shields.io/hexpm/v/airbrakex.svg)
+# Ravenex ![Package Version](https://img.shields.io/hexpm/v/ravenex.svg)
 
-Elixir client for the [Airbrake](http://airbrake.com) service!
+Elixir client for the [Sentry](https://getsentry.com), based on [Airbrakex](https://github.com/fazibear/airbrakex).
 
 ## Installation
 
-Add Airbrakex as a dependency to your `mix.exs` file:
+Add Ravenex as a dependency to your `mix.exs` file:
 
 ```elixir
 def application do
-  [applications: [:airbrakex]]
+  [applications: [:ravenex]]
 end
 
 defp deps do
-  [{:airbrakex, "~> 0.0.5"}]
+  [{:ravenex, "~> 0.0.1"}]
 end
 ```
 
@@ -20,18 +20,15 @@ Then run `mix deps.get` in your shell to fetch the dependencies.
 
 ### Configuration
 
-It requires `project_key` and `project` parameters to be set
+It requires `dsn` configuration parameters to be set
 in your application environment, usually defined in your `config/config.exs`.
 `logger_level` and `environment` are optional.
-If you want to use errbit instance, set custom url as endpoint.
 
 ```elixir
-config :airbrakex,
-  project_key: "abcdef12345",
-  project_id: 123456,
+config :ravenex,
+  dsn: "https://xxx:yyy@app.getsentry.com/12345",
   logger_level: :error,
-  environment: Mix.env,
-  endpoint: "http://errbit.yourdomain.com"
+  environment: Mix.env
 ```
 
 ## Usage
@@ -40,34 +37,36 @@ config :airbrakex,
 try do
   IO.inspect("test",[],"")
 rescue
-  exception -> Airbrakex.notify(exception)
+  exception -> Ravenex.notify(exception)
 end
 ```
 
 ### Logger Backend
 
-There is a Logger backend to send logs to the Airbrake,
+There is a Logger backend to send logs to the Sentry,
 which could be configured as follows:
 
 ```elixir
 config :logger,
-  backends: [Airbrakex.LoggerBackend]
+  backends: [Ravenex.LoggerBackend]
 ```
 
 ### Plug
 
-You can plug `Airbrakex.Plug` in your web application Plug stack to send all exception to Airbrake
+You can plug `Ravenex.Plug` in your web application Plug stack to send all exceptions to Sentry
 
 ```elixir
 defmodule YourApp.Router do
   use Phoenix.Router
-  use Airbrakex.Plug
+  use Ravenex.Plug
 
   # ...
 end
 ```
 
-## Thankx
- - [Airbrake Elixir](https://github.com/romul/airbrake-elixir)
- - [AirbrakePlug](https://github.com/romul/airbrake_plug)
- - [Rollbax](https://github.com/elixir-addicts/rollbax)
+## Attributions
+
+This project is a direct port of Airbrakex for Sentry. Many thanks to Michał Kalbarczyk for building and releasing that library. Additional code and inspiration from Stanislav Vishnevskiy and [raven-elixir](https://github.com/vishnevskiy/raven-elixir).
+
+ - [Airbrakex](https://github.com/fazibear/airbrakex)
+ - [raven-elixir](https://github.com/vishnevskiy/raven-elixir)

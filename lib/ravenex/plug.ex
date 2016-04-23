@@ -1,7 +1,7 @@
-defmodule Airbrakex.Plug do
+defmodule Ravenex.Plug do
   defmacro __using__(_env) do
     quote location: :keep do
-      @before_compile Airbrakex.Plug
+      @before_compile Ravenex.Plug
     end
   end
 
@@ -16,8 +16,8 @@ defmodule Airbrakex.Plug do
           exception ->
             session = Map.get(conn.private, :plug_session)
 
-            Airbrakex.ExceptionParser.parse(exception)
-            |> Airbrakex.Notifier.notify([params: conn.params, session: session])
+            Ravenex.ExceptionParser.parse(exception)
+            |> Ravenex.Notifier.notify([params: conn.params, session: session])
 
             reraise exception, System.stacktrace
         end
