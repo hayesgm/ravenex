@@ -6,7 +6,11 @@ defmodule Ravenex.Mixfile do
       app: :ravenex,
       version: "0.0.1",
       elixir: "~> 1.0",
-      description: "Raven Elixir Notifier",
+      description: """
+        Ravenex is an Elixir client for Sentry. Automatically
+        send error notifications to Sentry. Easily connects
+        with Phoenix through adding a logger or Plug.
+      """,
       package: package,
       deps: deps
    ]
