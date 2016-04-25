@@ -12,9 +12,6 @@ defmodule Ravenex.Notifier do
   }
 
   def notify(error, options \\ []) do
-    IO.puts "Got error"
-    IO.inspect([error, options])
-    IO.puts(Application.get_env(:ravenex, :dsn))
     case Application.get_env(:ravenex, :dsn) do
       dsn when is_bitstring(dsn) ->
         build_notification(error, options)
@@ -24,9 +21,7 @@ defmodule Ravenex.Notifier do
   end
 
   def build_notification(error, options \\ []) do
-    IO.inspect([error, options])
-
-    # culprit: "",
+    # TODO: culprit?
 
     %{
       event_id: UUID.uuid4(:hex),
@@ -67,7 +62,7 @@ defmodule Ravenex.Notifier do
   end
 
   defp add_device(payload) do
-    # TODO
+    # TODO: Add device data
     payload |> Dict.put(:device, %{})
   end
 

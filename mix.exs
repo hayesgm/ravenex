@@ -34,7 +34,7 @@ defmodule Ravenex.Mixfile do
     [
       {:httpoison, "~> 0.8"},
       {:poison, "~> 2.0"},
-      {:uuid, "~> 0.1.5"},
+      {:uuid, "~> 1.1.3"},
     ]
   end
 end
