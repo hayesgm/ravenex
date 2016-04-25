@@ -17,7 +17,7 @@ defmodule Ravenex.NotifierTest do
 
     assert notification[:event_id] != nil
     assert notification[:device] == %{}
-    assert notification[:environment] == :test
+    assert notification[:environment] == nil
     assert List.first(notification[:exception])[:type] == FunctionClauseError
     assert List.first(notification[:exception])[:value] == "no function clause matching in IO.inspect/3"
     assert List.first(notification[:exception])[:stacktrace][:frames] == [
@@ -32,7 +32,7 @@ defmodule Ravenex.NotifierTest do
     assert notification[:logger] == "Ravenex"
     assert notification[:message] == "no function clause matching in IO.inspect/3"
     assert notification[:platform] == "other"
-    assert notification[:sdk] == %{name: "Ravenex", version: "0.0.1"}
+    assert notification[:sdk] == %{name: "Ravenex", version: "0.0.3"}
     assert notification[:server_name] != nil
     assert notification[:tags] == %{}
     assert notification[:timestamp] != nil
@@ -59,7 +59,7 @@ defmodule Ravenex.NotifierTest do
 
     assert notification[:event_id] != nil
     assert notification[:device] == %{}
-    assert notification[:environment] == :test
+    assert notification[:environment] == nil
     assert List.first(notification[:exception])[:type] == "Ecto.NoResultsError"
     assert List.first(notification[:exception])[:value] == " expected at least one result but got none in query:\n\nfrom g in Test.Game,\n  where: g.id == ^\"d8fe9f04-8fda-4d8f-9473-67ba94dc9458\"\n\n"
     assert List.first(notification[:exception])[:stacktrace][:frames] == [
@@ -73,7 +73,7 @@ defmodule Ravenex.NotifierTest do
     assert notification[:logger] == "Ravenex"
     assert notification[:message] == " expected at least one result but got none in query:\n\nfrom g in Test.Game,\n  where: g.id == ^\"d8fe9f04-8fda-4d8f-9473-67ba94dc9458\"\n\n"
     assert notification[:platform] == "other"
-    assert notification[:sdk] == %{name: "Ravenex", version: "0.0.1"}
+    assert notification[:sdk] == %{name: "Ravenex", version: "0.0.3"}
     assert notification[:server_name] != nil
     assert notification[:tags] == %{}
     assert notification[:timestamp] != nil

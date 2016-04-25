@@ -29,7 +29,7 @@ defmodule Ravenex.Notifier do
       tags: Application.get_env(:ravenex, :tags, %{}),
       server_name: :net_adm.localhost |> to_string,
       timestamp: iso8601_timestamp,
-      environment: Application.get_env(:ravenex, :environment, Mix.env),
+      environment: Application.get_env(:ravenex, :environment, nil),
       platform: Keyword.get(options, :platform, "other"),
       level: Keyword.get(options, :level, Application.get_env(:ravenex, :logger_level, "error")),
       extra: Keyword.get(options, :context, %{}),
