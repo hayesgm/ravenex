@@ -31,6 +31,13 @@ config :ravenex,
   environment: Mix.env
 ```
 
+You may also set DSN from a runtime env var:
+
+```elixir
+config :ravenex,
+  dsn: {:system, "RAVEN_DSN"}
+```
+
 ## Usage
 
 ```elixir

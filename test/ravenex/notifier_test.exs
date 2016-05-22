@@ -106,4 +106,25 @@ defmodule Ravenex.NotifierTest do
   test "with backtrace" do
 
   end
+
+  test "get dsn" do
+    original = Application.get_env(:ravenex, :dsn)
+
+    try do
+      # Test string
+      Application.put_env(:ravenex, :dsn, "string")
+      assert Notifier.get_dsn == "string"
+
+      # Test system var
+      System.put_env("RAVENEX_TEST_VARIABLE", "123")
+      Application.put_env(:ravenex, :dsn, {:system, "RAVENEX_TEST_VARIABLE"})
+      assert Notifier.get_dsn == "123"
+
+      # Test otherwise
+      Application.put_env(:ravenex, :dsn, :cats)
+      assert Notifier.get_dsn == :error
+    after
+      Application.put_env(:ravenex, :dsn, original)
+    end
+  end
 end

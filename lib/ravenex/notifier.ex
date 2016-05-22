@@ -12,11 +12,11 @@ defmodule Ravenex.Notifier do
   }
 
   def notify(error, options \\ []) do
-    case Application.get_env(:ravenex, :dsn) do
+    case get_dsn do
       dsn when is_bitstring(dsn) ->
         build_notification(error, options)
         |> send_notification(dsn |> parse_dsn)
-      _ -> :error
+      :error -> :error
     end
   end
 
@@ -87,6 +87,16 @@ defmodule Ravenex.Notifier do
   defp add_extra(payload, key, value) do
     extra = Dict.get(payload, :extra)
     payload |> Dict.put(:extra, Dict.put(extra, key, value))
+  end
+
+  def get_dsn do
+    case Application.get_env(:ravenex, :dsn) do
+      dsn when is_bitstring(dsn) ->
+        dsn
+      {:system, system_var} ->
+        System.get_env(system_var)
+      _ -> :error
+    end
   end
 
   @doc """
