@@ -11,5 +11,5 @@ node {
 }
 
 node {
-    echo "Deploying ${BRANCH_NAME}..."
+    echo "Deploying ${env.BRANCH_NAME}..."
 }
