@@ -32,7 +32,7 @@ defmodule Ravenex.NotifierTest do
     assert notification[:logger] == "Ravenex"
     assert notification[:message] == "no function clause matching in IO.inspect/3"
     assert notification[:platform] == "other"
-    assert notification[:sdk] == %{name: "Ravenex", version: "0.0.4"}
+    assert notification[:sdk] == %{name: "Ravenex", version: Ravenex.Mixfile.project[:version]}
     assert notification[:server_name] != nil
     assert notification[:tags] == %{}
     assert notification[:timestamp] != nil
@@ -73,7 +73,7 @@ defmodule Ravenex.NotifierTest do
     assert notification[:logger] == "Ravenex"
     assert notification[:message] == " expected at least one result but got none in query:\n\nfrom g in Test.Game,\n  where: g.id == ^\"d8fe9f04-8fda-4d8f-9473-67ba94dc9458\"\n\n"
     assert notification[:platform] == "other"
-    assert notification[:sdk] == %{name: "Ravenex", version: "0.0.4"}
+    assert notification[:sdk] == %{name: "Ravenex", version: Ravenex.Mixfile.project[:version]}
     assert notification[:server_name] != nil
     assert notification[:tags] == %{}
     assert notification[:timestamp] != nil
@@ -115,9 +115,12 @@ defmodule Ravenex.NotifierTest do
       Application.put_env(:ravenex, :dsn, "string")
       assert Notifier.get_dsn == "string"
 
-      # Test system var
-      System.put_env("RAVENEX_TEST_VARIABLE", "123")
+      # Test system var - missing
       Application.put_env(:ravenex, :dsn, {:system, "RAVENEX_TEST_VARIABLE"})
+      assert Notifier.get_dsn == :error
+
+      # Test system var - set
+      System.put_env("RAVENEX_TEST_VARIABLE", "123")
       assert Notifier.get_dsn == "123"
 
       # Test otherwise

@@ -94,7 +94,11 @@ defmodule Ravenex.Notifier do
       dsn when is_bitstring(dsn) ->
         dsn
       {:system, system_var} ->
-        System.get_env(system_var)
+        case System.get_env(system_var) do
+          dsn when is_bitstring(dsn) ->
+            dsn
+          _ -> :error
+        end
       _ -> :error
     end
   end
