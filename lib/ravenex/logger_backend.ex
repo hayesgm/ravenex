@@ -31,8 +31,9 @@ defmodule Ravenex.LoggerBackend do
   defp post_event({Logger, msg, _ts, meta}, level, keys) do
     msg = IO.chardata_to_string(msg)
     meta = take_into_map(meta, keys)
-    meta = Map.put(meta, :level, level)
-    Ravenex.LoggerParser.parse(msg) |> Ravenex.Notifier.notify([params: meta])
+
+    Ravenex.LoggerParser.parse(msg)
+    |> Ravenex.Notifier.notify([level: level, params: meta])
   end
 
   defp take_into_map(metadata, keys) do
