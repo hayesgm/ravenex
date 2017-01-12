@@ -17,7 +17,20 @@ defmodule Ravenex.Plug do
             session = Map.get(conn.private, :plug_session)
 
             Ravenex.ExceptionParser.parse(exception)
-            |> Ravenex.Notifier.notify([params: conn.params, session: session])
+            |> Ravenex.Notifier.notify([
+              path: conn.request_path,
+              method: conn.method,
+              params: conn.params,
+              session: session,
+              remote_ip: case :inet.ntoa(conn.remote_ip) do
+                {:error, :einval} -> nil
+                ip -> to_string(ip)
+              end,
+              headers: (for {k, v} <- conn.req_headers, do: "#{k}: #{v}"),
+              cookies: case conn.req_cookies do
+                %Plug.Conn.Unfetched{} -> nil
+                els -> els
+              end])
 
             reraise exception, System.stacktrace
         end

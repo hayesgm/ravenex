@@ -40,6 +40,11 @@ defmodule Ravenex.Notifier do
     |> add_error(error)
     |> add_extra(:session, Keyword.get(options, :session))
     |> add_extra(:params, Keyword.get(options, :params))
+    |> add_extra(:path, Keyword.get(options, :path))
+    |> add_extra(:method, Keyword.get(options, :method))
+    |> add_extra(:remote_ip, Keyword.get(options, :remote_ip))
+    |> add_extra(:headers, Keyword.get(options, :headers))
+    |> add_extra(:cookies, Keyword.get(options, :cookies))
   end
 
   def send_notification(payload, {endpoint, public_key, private_key}) do

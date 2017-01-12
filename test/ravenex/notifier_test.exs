@@ -21,12 +21,12 @@ defmodule Ravenex.NotifierTest do
     assert List.first(notification[:exception])[:type] == FunctionClauseError
     assert List.first(notification[:exception])[:value] == "no function clause matching in IO.inspect/3"
     assert List.first(notification[:exception])[:stacktrace][:frames] == [
-        %{filename: "(Elixir.IO) lib/io.ex", function: "inspect(\"test\", [], \"\")", lineno: 209},
+        %{filename: "(Elixir.IO) lib/io.ex", function: "inspect(\"test\", [], \"\")", lineno: 258},
         %{filename: "(Elixir.Ravenex.NotifierTest) test/ravenex/notifier_test.exs",
           function: "test should correctly serialize exception/1", lineno: 9},
-        %{filename: "(Elixir.ExUnit.Runner) lib/ex_unit/runner.ex", function: "exec_test/1", lineno: 293},
+        %{filename: "(Elixir.ExUnit.Runner) lib/ex_unit/runner.ex", function: "exec_test/1", lineno: 296},
         %{filename: "(timer) timer.erl", function: "tc/1", lineno: 166},
-        %{filename: "(Elixir.ExUnit.Runner) lib/ex_unit/runner.ex", function: "-spawn_test/3-fun-1-/3", lineno: 242}]
+        %{filename: "(Elixir.ExUnit.Runner) lib/ex_unit/runner.ex", function: "-spawn_test/3-fun-1-/3", lineno: 246}]
     assert notification[:extra] == %{}
     assert notification[:level] == "error"
     assert notification[:logger] == "Ravenex"
