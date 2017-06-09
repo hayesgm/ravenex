@@ -20,13 +20,18 @@ defmodule Ravenex.NotifierTest do
     assert notification[:environment] == nil
     assert List.first(notification[:exception])[:type] == FunctionClauseError
     assert List.first(notification[:exception])[:value] == "no function clause matching in IO.inspect/3"
-    assert List.first(notification[:exception])[:stacktrace][:frames] == [
-        %{filename: "(Elixir.IO) lib/io.ex", function: "inspect(\"test\", [], \"\")", lineno: 258},
+    assert [
+        %{filename: "(Elixir.IO) lib/io.ex", function: "inspect(\"test\", [], \"\")", lineno: lineno1},
         %{filename: "(Elixir.Ravenex.NotifierTest) test/ravenex/notifier_test.exs",
-          function: "test should correctly serialize exception/1", lineno: 9},
-        %{filename: "(Elixir.ExUnit.Runner) lib/ex_unit/runner.ex", function: "exec_test/1", lineno: 296},
-        %{filename: "(timer) timer.erl", function: "tc/1", lineno: 166},
-        %{filename: "(Elixir.ExUnit.Runner) lib/ex_unit/runner.ex", function: "-spawn_test/3-fun-1-/3", lineno: 246}]
+          function: "test should correctly serialize exception/1", lineno: lineno2},
+        %{filename: "(Elixir.ExUnit.Runner) lib/ex_unit/runner.ex", function: "exec_test/1", lineno: lineno3},
+        %{filename: "(timer) timer.erl", function: "tc/1", lineno: lineno4},
+        %{filename: "(Elixir.ExUnit.Runner) lib/ex_unit/runner.ex", function: "-spawn_test/3-fun-1-/3", lineno: lineno5}] = List.first(notification[:exception])[:stacktrace][:frames]
+    assert is_number(lineno1) and lineno1 > 0
+    assert is_number(lineno2) and lineno2 > 0
+    assert is_number(lineno3) and lineno3 > 0
+    assert is_number(lineno4) and lineno4 > 0
+    assert is_number(lineno5) and lineno5 > 0
     assert notification[:extra] == %{}
     assert notification[:level] == "error"
     assert notification[:logger] == "Ravenex"
@@ -62,12 +67,17 @@ defmodule Ravenex.NotifierTest do
     assert notification[:environment] == nil
     assert List.first(notification[:exception])[:type] == "Ecto.NoResultsError"
     assert List.first(notification[:exception])[:value] == " expected at least one result but got none in query:\n\nfrom g in Test.Game,\n  where: g.id == ^\"d8fe9f04-8fda-4d8f-9473-67ba94dc9458\"\n\n"
-    assert List.first(notification[:exception])[:stacktrace][:frames] == [
-      %{"filename" => "(ecto) lib/ecto/repo/queryable.ex", "function" => " Ecto.Repo.Queryable.one!/4", "lineno" => 57},
-      %{"filename" => "(test) web/channels/game_channel.ex", "function" => " Test.GameChannel.join/3", "lineno" => 15},
-      %{"filename" => "(phoenix) lib/phoenix/channel/server.ex", "function" => " Phoenix.Channel.Server.init/1", "lineno" => 154},
-      %{"filename" => "(stdlib) gen_server.erl", "function" => " :gen_server.init_it/6", "lineno" => 328},
-      %{"filename" => "(stdlib) proc_lib.erl", "function" => " :proc_lib.init_p_do_apply/3", "lineno" => 239}]
+    assert [
+      %{"filename" => "(ecto) lib/ecto/repo/queryable.ex", "function" => " Ecto.Repo.Queryable.one!/4", "lineno" => lineno1},
+      %{"filename" => "(test) web/channels/game_channel.ex", "function" => " Test.GameChannel.join/3", "lineno" => lineno2},
+      %{"filename" => "(phoenix) lib/phoenix/channel/server.ex", "function" => " Phoenix.Channel.Server.init/1", "lineno" => lineno3},
+      %{"filename" => "(stdlib) gen_server.erl", "function" => " :gen_server.init_it/6", "lineno" => lineno4},
+      %{"filename" => "(stdlib) proc_lib.erl", "function" => " :proc_lib.init_p_do_apply/3", "lineno" => lineno5}] = List.first(notification[:exception])[:stacktrace][:frames]
+    assert is_number(lineno1) and lineno1 > 0
+    assert is_number(lineno2) and lineno2 > 0
+    assert is_number(lineno3) and lineno3 > 0
+    assert is_number(lineno4) and lineno4 > 0
+    assert is_number(lineno5) and lineno5 > 0
     assert notification[:extra] == %{}
     assert notification[:level] == "error"
     assert notification[:logger] == "Ravenex"
