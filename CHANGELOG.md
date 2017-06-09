@@ -1,5 +1,9 @@
 # Changes to Ravenex
 
+## 1.0.8
+
+* Ensure client can use poison 3.x
+
 ## 1.0.6
 
 * Ensure that Sentry gets the correct error level when passing errors via the logger backend
