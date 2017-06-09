@@ -4,7 +4,7 @@ defmodule Ravenex.Mixfile do
   def project do
     [
       app: :ravenex,
-      version: "0.0.7",
+      version: "0.0.8",
       elixir: "~> 1.0",
       description: """
         Ravenex is an Elixir client for Sentry. Automatically
