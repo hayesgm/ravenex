@@ -18,7 +18,7 @@ defmodule Ravenex.LoggerParser do
 
     %{
       type: type,
-      message: Enum.join(messages, "\n"),
+      message: MessageScrubber.scrub(Enum.join(messages, "\n")),
       backtrace: backtrace
     }
   end
