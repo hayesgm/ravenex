@@ -2,7 +2,7 @@ defmodule Ravenex.ExceptionParser do
   def parse(exception) do
     %{
       type: exception.__struct__,
-      message: Exception.message(exception),
+      message: MessageScrubber.scrub(Exception.message(exception)),
       backtrace: stacktrace(System.stacktrace)
     }
   end

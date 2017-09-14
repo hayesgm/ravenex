@@ -11,8 +11,8 @@ defmodule Ravenex.Mixfile do
         send error notifications to Sentry. Easily connects
         with Phoenix through adding a logger or Plug.
       """,
-      package: package,
-      deps: deps
+      package: package(),
+      deps: deps()
    ]
   end
 
@@ -26,12 +26,14 @@ defmodule Ravenex.Mixfile do
 
   def application do
     [
-      applications: [:idna, :hackney, :httpoison, :uuid]
+      applications: [:idna, :hackney, :httpoison, :uuid],
+      mod: { RavenexApp, [] }
     ]
   end
 
   defp deps do
     [
+      {:gen_retry, "~> 1.0.1", only: :test},
       {:httpoison, "~> 0.8"},
       {:poison, "~> 2.0"},
       {:uuid, "~> 1.1.3"},

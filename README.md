@@ -38,6 +38,23 @@ config :ravenex,
   dsn: {:system, "RAVEN_DSN"}
 ```
 
+### Scrubber configuration
+
+If you need to scrub data out of the error messages, you can configure regular
+expressions that will cleanse the data. The scrubber is configured in config/config.exs
+using regular expressions. The scrubber configuration is a tuple of a matching
+regular expression string along with a replacement string.
+
+```elixir
+# Example scrubber configuration
+config :revenex,
+  scrubbers: [
+    {"password: .+?(\n| )", "password: SCRUBBED\\1"},
+    {"scrubber regex 2", "scrubber 2 replacement"}
+  ]
+```
+Scrubbers are a list of tuples with a regular expression string at element one and a replacement string as the second element. The replacement regular expression can use capture groups which can be referenced in the replacement string.
+
 ## Usage
 
 ```elixir

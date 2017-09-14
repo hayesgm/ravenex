@@ -1,6 +1,14 @@
 defmodule Ravenex.ExceptionParserTest do
   use ExUnit.Case
 
+  setup_all do
+    if Process.whereis(RavenexSupervisor) == nil do
+      Application.put_env(:ravenex, :scrubbers, nil)
+      RavenexSupervisor.start_link([max_restarts: 20])
+    end
+    :ok
+  end
+
   test "should parse exception" do
 
     exception = try do
