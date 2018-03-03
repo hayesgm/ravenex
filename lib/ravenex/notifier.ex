@@ -12,11 +12,13 @@ defmodule Ravenex.Notifier do
   }
 
   def notify(error, options \\ []) do
-    case get_dsn do
-      dsn when is_bitstring(dsn) ->
-        build_notification(error, options)
-        |> send_notification(dsn |> parse_dsn)
-      :error -> :error
+    if proceed?(Application.get_env(:ravenex, :ignore), error) do
+      case get_dsn do
+        dsn when is_bitstring(dsn) ->
+          build_notification(error, options)
+          |> send_notification(dsn |> parse_dsn)
+        :error -> :error
+      end
     end
   end
 
@@ -156,4 +158,8 @@ defmodule Ravenex.Notifier do
       |> Enum.map(&String.rjust(&1, 2, ?0))
     "#{year}-#{month}-#{day}T#{hour}:#{minute}:#{second}"
   end
+
+  defp proceed?(ignore, _error) when is_nil(ignore), do: true
+  defp proceed?(ignore, error) when is_function(ignore), do: !ignore.(error)
+  defp proceed?(ignore, error) when is_list(ignore), do: !Enum.any?(ignore, fn(el) -> el == error.type end)
 end
