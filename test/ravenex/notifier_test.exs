@@ -1,5 +1,6 @@
 defmodule Ravenex.NotifierTest do
   use ExUnit.Case
+
   alias Ravenex.ExceptionParser
   alias Ravenex.LoggerParser
   alias Ravenex.Notifier
@@ -138,6 +139,50 @@ defmodule Ravenex.NotifierTest do
       assert Notifier.get_dsn == :error
     after
       Application.put_env(:ravenex, :dsn, original)
+    end
+  end
+
+  test "ignore, when a list" do
+    Application.put_env(:ravenex, :dsn, "https://xxx:yyy@app.getsentry.com/12345")
+
+    ignore = Application.get_env(:ravenex, :ignore)
+    Application.put_env(:ravenex, :ignore, [FunctionClauseError])
+
+    try do
+      error = try do
+        IO.inspect("test", [] ,"")
+      rescue
+        e -> e
+      end
+
+      parsed_error = ExceptionParser.parse(error)
+      res = Notifier.notify(parsed_error, [])
+
+      assert res == nil
+    after
+      Application.put_env(:ravenex, :ignore, ignore)
+    end
+  end
+
+  test "ignore, when a function" do
+    Application.put_env(:ravenex, :dsn, "https://xxx:yyy@app.getsentry.com/12345")
+
+    ignore = Application.get_env(:ravenex, :ignore)
+    Application.put_env(:ravenex, :ignore, fn(error) -> error.type == FunctionClauseError end)
+
+    try do
+      error = try do
+        IO.inspect("test", [] ,"")
+      rescue
+        e -> e
+      end
+
+      parsed_error = ExceptionParser.parse(error)
+      res = Notifier.notify(parsed_error, [])
+
+      assert res == nil
+    after
+      Application.put_env(:ravenex, :ignore, ignore)
     end
   end
 end
