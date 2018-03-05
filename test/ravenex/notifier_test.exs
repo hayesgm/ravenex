@@ -150,7 +150,7 @@ defmodule Ravenex.NotifierTest do
 
     try do
       error = try do
-        IO.inspect("test", [] ,"")
+        IO.inspect("test", [], "")
       rescue
         e -> e
       end
@@ -158,7 +158,7 @@ defmodule Ravenex.NotifierTest do
       parsed_error = ExceptionParser.parse(error)
       res = Notifier.notify(parsed_error, [])
 
-      assert res == nil
+      assert res == :ok
     after
       Application.put_env(:ravenex, :ignore, ignore)
     end
@@ -172,7 +172,7 @@ defmodule Ravenex.NotifierTest do
 
     try do
       error = try do
-        IO.inspect("test", [] ,"")
+        IO.inspect("test", [], "")
       rescue
         e -> e
       end
@@ -180,7 +180,7 @@ defmodule Ravenex.NotifierTest do
       parsed_error = ExceptionParser.parse(error)
       res = Notifier.notify(parsed_error, [])
 
-      assert res == nil
+      assert res == :ok
     after
       Application.put_env(:ravenex, :ignore, ignore)
     end

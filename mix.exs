@@ -26,7 +26,7 @@ defmodule Ravenex.Mixfile do
 
   def application do
     [
-      applications: [:idna, :hackney, :httpoison, :uuid],
+      applications: [:idna, :hackney, :httpoison, :logger, :uuid],
       mod: { RavenexApp, [] }
     ]
   end

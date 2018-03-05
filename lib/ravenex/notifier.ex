@@ -1,6 +1,8 @@
 defmodule Ravenex.Notifier do
   use HTTPoison.Base
 
+  import Logger, only: [info: 2]
+
   @sentry_version 5
   quote do
     unquote(@sentry_client "raven-elixir/#{Mix.Project.config[:version]}")
@@ -19,6 +21,8 @@ defmodule Ravenex.Notifier do
           |> send_notification(dsn |> parse_dsn)
         :error -> :error
       end
+    else
+      Logger.info "Ignoring error type: {error.type}"
     end
   end
 
@@ -161,5 +165,5 @@ defmodule Ravenex.Notifier do
 
   defp proceed?(ignore, _error) when is_nil(ignore), do: true
   defp proceed?(ignore, error) when is_function(ignore), do: !ignore.(error)
-  defp proceed?(ignore, error) when is_list(ignore), do: !Enum.any?(ignore, fn(el) -> el == error.type end)
+  defp proceed?(ignore, error) when is_list(ignore), do: not Enum.member?(ignore, error.type)
 end
