@@ -4,8 +4,8 @@ defmodule Ravenex.Mixfile do
   def project do
     [
       app: :ravenex,
-      version: "0.0.10",
-      elixir: "~> 1.0",
+      version: "0.1.0",
+      elixir: "~> 1.7",
       description: """
         Ravenex is an Elixir client for Sentry. Automatically
         send error notifications to Sentry. Easily connects
@@ -26,7 +26,7 @@ defmodule Ravenex.Mixfile do
 
   def application do
     [
-      applications: [:idna, :hackney, :httpoison, :logger, :uuid],
+      applications: [:idna, :hackney, :httpoison, :logger, :elixir_uuid],
       mod: { RavenexApp, [] }
     ]
   end
@@ -36,7 +36,7 @@ defmodule Ravenex.Mixfile do
       {:gen_retry, "~> 1.0.1", only: :test},
       {:httpoison, "~> 0.8"},
       {:poison, "~> 2.0 or ~> 3.0"},
-      {:uuid, "~> 1.1.3"},
+      {:elixir_uuid, "~> 1.2"},
       {:ex_doc, "~> 0.14", only: :dev}
     ]
   end
