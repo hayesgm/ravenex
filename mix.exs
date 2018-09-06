@@ -37,7 +37,7 @@ defmodule Ravenex.Mixfile do
       {:httpoison, "~> 0.8"},
       {:poison, "~> 2.0 or ~> 3.0"},
       {:elixir_uuid, "~> 1.2"},
-      {:ex_doc, "~> 0.14", only: :dev}
+      {:ex_doc, "~> 0.17", only: :dev}
     ]
   end
 end
